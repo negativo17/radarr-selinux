@@ -1,0 +1,39 @@
+## <summary>Radarr daemon.</summary>
+
+########################################
+## <summary>
+##      Execute radarr service in the radarr domain.
+## </summary>
+## <param name="domain">
+## <summary>
+##      Domain allowed to transition.
+## </summary>
+## </param>
+#
+interface(`radarr_domtrans',`
+        gen_require(`
+                type radarr_t, radarr_exec_t;
+        ')
+
+        corecmd_search_bin($1)
+        domain_auto_trans($1, radarr_exec_t, radarr_t)
+')
+
+######################################
+## <summary>
+##      Execute radarr in the caller domain.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`radarr_exec',`
+        gen_require(`
+                type radarr_exec_t;
+        ')
+
+        corecmd_search_bin($1)
+        can_exec($1, radarr_exec_t)
+')
