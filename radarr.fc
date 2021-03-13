@@ -1,6 +1,6 @@
-/usr/lib64/radarr/Radarr                        gen_context(system_u:object_r:radarr_exec_t,s0)
-/usr/lib64/radarr/Radarr.Update/Radarr.Update   gen_context(system_u:object_r:radarr_exec_t,s0)
-/var/lib/radarr(/.*)?                           gen_context(system_u:object_r:radarr_var_lib_t,s0)
-
+/usr/lib/radarr/Radarr                      -- gen_context(system_u:object_r:radarr_exec_t,s0)
+/usr/lib/radarr/Radarr.Update/Radarr.Update -- gen_context(system_u:object_r:radarr_exec_t,s0)
 # https://lttng.org/
-/dev/shm/lttng-ust-wait-8                       gen_context(system_u:object_r:radarr_tmpfs_t,s0)
+/dev/shm/lttng-ust-wait-8                   -- gen_context(system_u:object_r:radarr_tmpfs_t,s0)
+
+/var/lib/radarr(/.*)?                          gen_context(system_u:object_r:radarr_var_lib_t,s0)
