@@ -3,8 +3,8 @@
 %global modulename radarr
 
 Name:           %{modulename}-selinux
-Version:        0.1
-Release:        2%{?dist}
+Version:        1.0.4
+Release:        1%{?dist}
 Summary:        Radarr SELinux policy
 License:        GPLv3
 URL:            https://github.com/scaronni/%{name}
@@ -59,6 +59,9 @@ fi
 %ghost %{_sharedstatedir}/selinux/%{selinuxtype}/active/modules/200/%{modulename}
 
 %changelog
+* Mon Apr 19 2021 Simone Caronni <negativo17@gmail.com> - 1.0.4-1
+- Update policy, use better numbering schema.
+
 * Sat Mar 13 2021 Simone Caronni <negativo17@gmail.com> - 0.1-2
 - Updated policy.
 

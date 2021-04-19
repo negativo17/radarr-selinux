@@ -1,4 +1,4 @@
-policy_module(radarr, 1.0.3)
+policy_module(radarr, 1.0.4)
 
 require {
     type bin_t;
@@ -37,6 +37,9 @@ manage_files_pattern(radarr_t, radarr_tmpfs_t, radarr_tmpfs_t)
 mmap_read_files_pattern(radarr_t, radarr_tmpfs_t, radarr_tmpfs_t)
 # manage_lnk_files_pattern(radarr_t, radarr_tmpfs_t, radarr_tmpfs_t)
 fs_tmpfs_filetrans(radarr_t, radarr_tmpfs_t, { dir file })
+
+# Allow access to .NET runtime (LTTng - /dev/shm/lttng-ust-wait*)
+fs_rw_tmpfs_files(radarr_t)
 
 type radarr_port_t;
 corenet_port(radarr_port_t)
@@ -166,22 +169,22 @@ optional_policy(`
 	')
 ')
 
-# Optional Policy: Use nzbget if available
+# Optional Policy: Use sabnzbd if available
 optional_policy(`
 	require {
-		type nzbget_t;
-		type nzbget_port_t;
-		type nzbget_content_rw_t;
+		type sabnzbd_t;
+		type sabnzbd_port_t;
+		type sabnzbd_content_rw_t;
 		}
 
-	# Allow radarr to connect to nzbget port and manage downloaded files.
-	gen_tunable(radarr_connect_nzbget, false)
+	# Allow radarr to connect to sabnzbd port and manage downloaded files.
+	gen_tunable(radarr_connect_sabnzbd, false)
 
-	tunable_policy(`radarr_connect_nzbget',`
-		allow radarr_t nzbget_port_t:tcp_socket { name_bind name_connect };
-		allow radarr_t nzbget_content_rw_t:dir { create open getattr setattr read write link unlink rename search add_name remove_name reparent rmdir lock ioctl };
-		allow radarr_t nzbget_content_rw_t:file { create open getattr setattr read write append rename link unlink ioctl lock };
-		allow radarr_t nzbget_content_rw_t:lnk_file { create getattr setattr read write append rename link unlink ioctl lock };
+	tunable_policy(`radarr_connect_sabnzbd',`
+		allow radarr_t sabnzbd_port_t:tcp_socket { name_bind name_connect };
+		allow radarr_t sabnzbd_content_rw_t:dir { create open getattr setattr read write link unlink rename search add_name remove_name reparent rmdir lock ioctl };
+		allow radarr_t sabnzbd_content_rw_t:file { create open getattr setattr read write append rename link unlink ioctl lock };
+		allow radarr_t sabnzbd_content_rw_t:lnk_file { create getattr setattr read write append rename link unlink ioctl lock };
 	')
 ')
 
